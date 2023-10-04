@@ -1,0 +1,61 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduards</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculator Timp de Reacție</h1>
+    <p>Apasă butonul de mai jos când vezi schimbarea de culoare.</p>
+
+    <div id="target"></div>
+    <button onclick="startTimer()">Start</button>
+    <p id="result"></p>
+</div>
+
+<script>
+    let startTime, endTime;
+
+    function startTimer() {
+        let target = document.getElementById('target');
+        let resultDisplay = document.getElementById('result');
+
+        // Resetăm la culoarea inițială
+        target.style.backgroundColor = 'red';
+        resultDisplay.innerHTML = ''; // Eliminăm textul rezultatului anterior
+
+        // Actualizăm butonul
+        document.querySelector('button').disabled = true;
+
+        // Generăm un interval random între 2 și 8 secunde
+        let countdownDuration = Math.floor(Math.random() * (8000 - 2000 + 1)) + 2000;
+
+        setTimeout(function () {
+            // Schimbăm culoarea la albastru
+            target.style.backgroundColor = 'blue';
+            resultDisplay.innerHTML = 'Reacționează acum!';
+
+            // Setăm timpul de start
+            startTime = new Date();
+
+            // Adăugăm un eveniment pentru a măsura timpul de reacție
+            target.onclick = function () {
+                endTime = new Date();
+                let reactionTime = endTime - startTime;
+                resultDisplay.innerHTML = 'Timp de reacție: ' + reactionTime + ' milisecunde';
+                // Resetăm la culoarea inițială
+                target.style.backgroundColor = 'red';
+                target.onclick = null; // Dezactivăm evenimentul după apăsare
+                document.querySelector('button').disabled = false; // Re-activăm butonul
+            };
+        }, countdownDuration);
+    }
+</script>
+
+</body>
+</html>
